@@ -1,9 +1,9 @@
+import { genres } from "./partials/movieGenre";
 
 const galleryEl = document.querySelector('.gallery');
 const formBtnEl = document.querySelector('.header-btn');
 const inputEl = document.querySelector('input')
 console.log(inputEl.value);
-let genres = [];
 
 
 
@@ -29,7 +29,7 @@ function onFormBtnClick(event) {
             console.log(results);
             const resTitle = results.map(({ title, backdrop_path, overview, release_date, genre_ids }) => {
                 return `<div class="gallery-item">
-        <img class="gallery-img" src=${backdrop_path} alt="${title}">
+        <a class="gallery-link" href=""><img class="gallery-img" src=${backdrop_path} alt="${title}"></a>
         <div class="gallery-info">
             <p class="gallery-name">${title}</p>
             <p class="gallery-about">${release_date}, ${genre_ids}</p>
@@ -49,20 +49,25 @@ function startPageWithTrendingMovies() {
     fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`).then((res) => {
         return res.json()
     }).then(({ results } ) => {
-        console.log(results);
 
         const film = results.map(({ title, poster_path, overview, release_date, genre_ids }) => {
             const dateOf = release_date.slice(0, 4);
-            const genreName = searchGenresName(genre_ids);
+            const genreName = [];
+            for (const el of genres) {
+                for (const gen of genre_ids) {
+                    if (el.id === gen) {
+                        genreName.push(el.name)
+                    }
+                }
+            }
 
-            // console.log(genreName);
-            // console.log(genre_ids);
+
 
             return `<div class="gallery-item">
-        <img class="gallery-img" src="https://image.tmdb.org/t/p/w300${poster_path}" alt="${title}" />
+        <a class="gallery-link" href=""><img class="gallery-img" src="https://image.tmdb.org/t/p/w300${poster_path}" alt="${title}" /></a>
         <div class="gallery-info">
             <p class="gallery-name">${title}</p>
-            <p class="gallery-about">${dateOf}, ${genreName}</p>
+            <p class="gallery-about">${genreName} | ${dateOf}</p>
         </div>
     </div>`}).join('');
 
@@ -71,30 +76,29 @@ function startPageWithTrendingMovies() {
 }
 
 
-
-function searchGenresName(...genreId) {
-    fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`)
-        .then((res) => {
-            return res.json()
-        })
-        .then((data) => {
-            const genreName = data.genres;
-            genreName.forEach(el => {
-                for (let index = 0; index < genreId.length; index++) {
-                    const element = genreId[index];
-                    if (el.id === element) {
-                        genres.push(el.name);
-                        let uniqe = genres.filter((item, i, ar) => ar.indexOf(item) === i);
-                    console.log(uniqe);
-                }
+// function searchGenresName(...genreId) {
+//     fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`)
+//         .then((res) => {
+//             return res.json()
+//         })
+//         .then((data) => {
+//             const genreName = data.genres;
+//             genreName.forEach(el => {
+//                 for (let index = 0; index < genreId.length; index++) {
+//                     const element = genreId[index];
+//                     if (el.id === element) {
+//                         // genres.push(el.name);
+//                         // let uniqe = genres.filter((item, i, ar) => ar.indexOf(item) === i);
+//                         console.log(uniqe);
+//                         return uniqe;
+//                 }
                     
-                }
+//                 }
                 
-            });
-        }
-        )
-}
-// let unique = a.filter((item, i, ar) => ar.indexOf(item) === i);
-// console.log(unique);
+//             });
+//         }
+//         )
+// }
 
-console.log(searchGenresName(35,18));
+
+// console.log(searchGenresName(35,28));
