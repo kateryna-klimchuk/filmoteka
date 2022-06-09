@@ -1,0 +1,47 @@
+.library-header {
+    background-image: linear-gradient(to right,
+        rgba(47, 48, 58, 0.4),
+        rgba(47, 48, 58, 0.4)),
+    url("../images/library-banner.png");
+    margin: 0 auto;
+    padding: 45px 71px 60px;
+    width: 100%;
+    /* max-width: 1024px; */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.btn-wrap {
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.library-btn {
+    cursor: pointer;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.33;
+    
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    padding: 13px 41px;
+    border-radius: 5px;
+    color: #FFFFFF;
+    background: rgba(0, 0, 0, 0.56);
+    border: 1px solid #FFFFFF
+}
+
+.library-btn:first-child {
+    margin-right: 16px;
+}
+
+.library-btn--active {
+    background: #FF6B01;
+    border: none;
+}

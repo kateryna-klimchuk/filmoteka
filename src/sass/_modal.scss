@@ -1,0 +1,83 @@
+.backdrop {
+    width: 100%;
+}
+
+.modal-window {
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #000000;
+    background-color: white;
+    display: flex;
+    align-items: flex-start;
+    padding: 40px 16px;
+    border-radius: 5px;
+}
+
+.modal-img {
+    background-color: rgb(168, 138, 138);
+    min-width: 50%;
+    height: 470px;
+    margin-right: 16px;
+}
+
+// .film-info {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: start;
+//     // margin-bottom: 20px;
+// }
+
+.film-name {
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 35px;
+    
+    color: #000000;
+}
+
+.film-stats {
+    margin-bottom: 20px;
+    display: inline-block;
+    margin: 0;
+    width: 100%;
+}
+
+
+.film-description {
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.67;  
+    
+    color: #000000;
+}
+
+.modal-btn-wrap {
+display: flex;
+}
+
+.modal-btn:first-child {
+    margin-right: 15px;
+}
+
+.modal-btn {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.33;
+    
+    display: flex;
+    align-items: center;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 12px 10px 14px;
+    border-radius: 5px;
+    
+    color: #000000;
+}
+
+.modal-btn--active {
+    background-color: #FF6B01;
+    border: none;
+}

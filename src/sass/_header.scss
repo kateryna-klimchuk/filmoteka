@@ -1,10 +1,9 @@
-header {
+.main-header {
     /* border: 1px solid red; */
     background-image: linear-gradient(to right,
             rgba(47, 48, 58, 0.4),
             rgba(47, 48, 58, 0.4)),
         url("../images/Rectangle\ 1.png");
-    ;
     margin: 0 auto;
     padding: 40px 32px 80px;
     width: 100%;
@@ -90,8 +89,28 @@ input::placeholder {
 .header-form button {
     position: absolute;
     bottom: 0px;
-    right: 304px;
+    right: -5px;
     border: none;
     background-color: inherit;
     cursor: pointer;
+}
+
+.header-warning {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    margin-top: 20px;
+    
+    color: #FF001B;
+}
+
+.form-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.visually-hidden {
+    visibility: hidden;
 }
