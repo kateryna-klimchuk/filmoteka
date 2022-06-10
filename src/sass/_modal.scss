@@ -1,34 +1,60 @@
 .backdrop {
     width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background-color: rgba($color: #000000, $alpha: .25);
+    // overflow-y: scroll;
+    
+    // opacity: 0.25;
 }
 
+
+
 .modal-window {
-    max-width: 70%;
+    max-width: 50%;
+    max-height: 70%;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 160px;
     border: 1px solid #000000;
     background-color: white;
     display: flex;
     align-items: flex-start;
     padding: 40px 16px;
-    border-radius: 5px;
+}
+
+.cross {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    color: orange;
+    border: none;
+    background-color: transparent;
+
+    top: 10px;
+    right: 10px;
+    &:hover {
+        color: rgb(244, 231, 128);
+    }
 }
 
 .modal-img {
-    background-color: rgb(168, 138, 138);
+    // background-color: rgb(168, 138, 138);
     min-width: 50%;
-    height: 470px;
+    object-fit: contain;
+    height: 400px;
     margin-right: 16px;
+    border-radius: 5px;
 }
 
-// .film-info {
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: start;
-//     // margin-bottom: 20px;
-// }
 
 .film-name {
+    position: relative;
     margin-bottom: 20px;
     font-weight: 500;
     font-size: 30px;
@@ -39,9 +65,27 @@
 
 .film-stats {
     margin-bottom: 20px;
-    display: inline-block;
+    display: flex;
     margin: 0;
-    width: 100%;
+    padding: 0;
+}
+
+.film-stats__list {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.33;
+    
+    color: #000000;
+}
+
+
+.film-stats__list:first-child {
+    margin-right: 80px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.33;
+
+    color: #8C8C8C;
 }
 
 
@@ -71,13 +115,15 @@ display: flex;
     align-items: center;
     text-align: center;
     text-transform: uppercase;
-    padding: 12px 10px 14px;
+    padding: 12px 10px 12px;
     border-radius: 5px;
-    
+    background: #FFFFFF;
     color: #000000;
+    border: 1px solid #000000
 }
 
 .modal-btn--active {
     background-color: #FF6B01;
+    color: white;
     border: none;
 }

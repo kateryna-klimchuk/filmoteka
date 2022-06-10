@@ -1,0 +1,28 @@
+.pagination__wrapper {
+    // background-color: #E5E5E5;
+        background-color: white;
+    margin: 0;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 60px 325px;
+
+    & li {
+        margin-right: 15px;
+    }
+}
+
+.active {
+    background-color: orange;
+}
+
+button {
+    border: none;
+    background-color: transparent;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
