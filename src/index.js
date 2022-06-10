@@ -4,8 +4,9 @@ const galleryEl = document.querySelector('.gallery');
 const formBtnEl = document.querySelector('.header-btn');
 const inputEl = document.querySelector('input');
 const modalWindowEl = document.querySelector('.backdrop');
-const galleryItemEl = document.querySelector('.gallery-item');
-const closeModalBtn = document.querySelector('.cross')
+
+
+// closeModalBtn.addEventListener('click', onCloseModal);
 
 console.log(inputEl.value);
 
@@ -20,7 +21,6 @@ formBtnEl.addEventListener('click', onFormBtnClick);
 inputEl.addEventListener('input', onInputType)
 
 function onInputType(event) {
-    // inputText = inputEl.value;
     inputText = event.currentTarget.value;
     console.log(inputText);
 
@@ -108,7 +108,9 @@ function onFilmClick(event) {
     }
     console.log(item.id);
 
-    openModal()
+    // openModal();
+    onCloseModal()
+    // console.log(closeModalBtn);
 
     fetch(`https://api.themoviedb.org/3/movie/${item.id}?api_key=${API_KEY}&language=en-US`)
         .then(res => res.json()).then(({ id, original_title, poster_path, backdrop_path, overview, release_date, genre_ids, vote_average, vote_count, popularity }) => {
@@ -127,7 +129,7 @@ function onFilmClick(event) {
             <img class="modal-img" id=${id} src="https://image.tmdb.org/t/p/w500${backdrop_path}" alt=${original_title} width="370" height="470">
         </div>
         <div class="film-info">
-    <button type="button" class="cross">x</button>
+        <button type="button" class="cross">x</button>
 
             <h2 class="film-name">${original_title}</h2>
             <div class="film-stats">
@@ -153,18 +155,33 @@ function onFilmClick(event) {
             
         </div>
     </div>`;
+
         return modalWindowEl.insertAdjacentHTML('beforeend', modalWindow);
 
     })
 }
 
-closeModalBtn.addEventListener('click', onCloseModal);
+modalWindowEl.addEventListener('click', (e) => {
+    console.log(e.target.nodeName);
+    if (e.target.nodeName !== 'BUTTON') {
+        return;
+    }
+    modalWindowEl.classList.toggle('visually-hidden')
+
+})
+
+// const closeModBtn = document.querySelector('.cross');
+//             closeModBtn.addEventListener('click', onModalBtnClick);
+//             function onModalBtnClick() {
+//                 modalWindowEl.classList.toggle('visually-hidden')
+//             }
 
 function onCloseModal() {
-    modalWindowEl.classList.add('visually-hidden')
+    console.log('e');
+    modalWindowEl.classList.toggle('visually-hidden')
 }
 
-function openModal() {
-    modalWindowEl.classList.remove('visually-hidden');
+// function openModal() {
+//     modalWindowEl.classList.remove('visually-hidden');
 
-}
+// }
