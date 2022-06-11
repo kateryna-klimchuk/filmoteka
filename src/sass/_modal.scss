@@ -25,21 +25,29 @@
     padding: 40px 16px;
 }
 
+.film-info {
+    position: relative;
+}
+
 .cross {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
     width: 20px;
     height: 20px;
-    color: orange;
+    color: rgb(113, 110, 105);
     border: none;
     background-color: transparent;
 
-    top: 170px;
-    right: 360px;
+    position: fixed;
+    top: 8px;
+    right: 8px;
+
+    transition: transform 250ms cubic-bezier(.29, 1.01, 1, -0.68);
+
     &:hover {
-        color: rgb(244, 231, 128);
+        color: orange;
+        transform: rotate(0.25turn);
     }
 }
 
