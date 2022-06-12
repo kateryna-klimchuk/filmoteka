@@ -1,5 +1,7 @@
 import { genres } from "./partials/movieGenre";
 
+import axios from 'axios';
+
 const galleryEl = document.querySelector('.gallery');
 const formBtnEl = document.querySelector('.header-btn');
 const inputEl = document.querySelector('input');
@@ -57,6 +59,8 @@ console.log(results);
         });
     
 }
+
+
 startPageWithTrendingMovies();
 
 
@@ -65,22 +69,17 @@ function startPageWithTrendingMovies() {
     fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`).then((res) => {
         return res.json()
     }).then(({ results } ) => {
-console.log(results);
+// console.log(results);
         const film = results.map(({ title, poster_path, overview, release_date, genre_ids, vote_average, vote_count, popularity, id }) => {
-            const dateOf = release_date.slice(0, 4);
-            const genreName = [];
-            for (const el of genres) {
-                for (const gen of genre_ids) {
-                    if (el.id === gen) {
-                        genreName.push(el.name)
-                    }
-                }
-            }
+            const releaseYear = release_date.slice(0, 4);
+
+            const genresList = getMovieGenre(...genre_ids);
+            
             return `<div class="gallery-item">
         <a class="gallery-link" href=""><img class="gallery-img" src="https://image.tmdb.org/t/p/w300${poster_path}" alt="${title}" id="${id}"/></a>
         <div class="gallery-info">
             <p class="gallery-name">${title}</p>
-            <p class="gallery-about">${genreName} | ${dateOf}</p>
+            <p class="gallery-about">${genresList} | ${releaseYear}</p>
         </div>
     </div>`}).join('');
 
@@ -108,28 +107,18 @@ function onFilmClick(event) {
     }
     console.log(item.id);
 
-    // openModal();
     onCloseModal()
-    // console.log(closeModalBtn);
 
     fetch(`https://api.themoviedb.org/3/movie/${item.id}?api_key=${API_KEY}&language=en-US`)
         .then(res => res.json()).then(({ id, original_title, poster_path, backdrop_path, overview, release_date, genre_ids, vote_average, vote_count, popularity }) => {
             console.log(original_title);
-            // const genreName = [];
-            //     for (const el of genres) {
-            //         for (const gen of genre_ids) {
-            //             if (el.id === gen) {
-            //                 genreName.push(el.name)
-            //             }
-            //         }
-            //     }
             
             const modalWindow = `<div class="modal-window">
         <div class="modal-img">
-            <img class="modal-img" id=${id} src="https://image.tmdb.org/t/p/w500${backdrop_path}" alt=${original_title} width="370" height="470">
+            <img class="modal-img" id=${id} src="https://image.tmdb.org/t/p/w500${poster_path}" alt=${original_title} width="370" height="470">
         </div>
         <div class="film-info">
-        <button type="button" class="cross">x</button>
+        <button type="button" class="cross">+</button>
 
             <h2 class="film-name">${original_title}</h2>
             <div class="film-stats">
@@ -170,18 +159,43 @@ modalWindowEl.addEventListener('click', (e) => {
 
 })
 
-// const closeModBtn = document.querySelector('.cross');
-//             closeModBtn.addEventListener('click', onModalBtnClick);
-//             function onModalBtnClick() {
-//                 modalWindowEl.classList.toggle('visually-hidden')
-//             }
-
 function onCloseModal() {
     console.log('e');
     modalWindowEl.classList.toggle('visually-hidden')
 }
 
-// function openModal() {
-//     modalWindowEl.classList.remove('visually-hidden');
+function getMovieGenre(...num) {
+    let genreName = [];
 
-// }
+    // const datOfGenre = await genresFetch();
+
+    // console.log(datOfGenre);
+    // console.log(genres);
+
+    for (const el of genres) {
+                for (const gen of num) {
+                    if (el.id === gen) {
+                        genreName.push(el.name);   
+                    }
+                }
+            }
+            let genreAfterSlice = []
+            genreAfterSlice = genreName.slice(0, 2);
+            if (genreName.length > 2) {
+                genreAfterSlice.push('other')
+    }
+    return genreAfterSlice;
+}
+
+
+async function genresFetch() {
+    try {
+        const {data} = await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`)
+        const filmGenres = data.genres;
+        console.log(filmGenres);
+        return filmGenres;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
