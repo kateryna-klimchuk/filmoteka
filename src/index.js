@@ -1,7 +1,10 @@
-import { getMovieGenre } from "./partials/movieGenre";
-import { genres } from "./partials/movieGenre";
+// import { getMovieGenre } from "./partials/movieGenre";
+// import { genres } from "./partials/movieGenre";
+import {getGenres, getMovieGenre } from './js/genres';
 
 import axios from 'axios';
+import Notiflix from 'notiflix';
+
 
 const API_KEY = '532c56a8c591a340308597d9f66fd331';
 
@@ -11,144 +14,145 @@ const formBtnEl = document.querySelector('.header-btn');
 const inputEl = document.querySelector('input');
 const modalWindowEl = document.querySelector('.backdrop');
 
+
+// modal window for searching with genres, years, popularity
+
+
+const formEl = document.querySelector('.genre-search');
 const searchGenreEl = document.querySelector('#genres');
-const searchYearEl = document.querySelector('#years');
-const searchPopularityEl = document.querySelector('#popularity');
+const searchBtnOpen = document.querySelector('.search-form-btn');
+const searchBackdrop = document.querySelector('.search-form__wrap');
 
+searchBtnOpen.addEventListener('click', onOpenForm)
 
-searchPopularityEl.addEventListener('click', (event) => {
+let genresList;
+
+renderGenresList()
+
+function onOpenForm() {
+    searchBackdrop.classList.add('is-open')
+}
+
+function onCloseForm() {
+    searchBackdrop.classList.remove('is-open')
+}
+
+formEl.addEventListener('click', (event) => {
+    const formValue = event.target;
+
     event.preventDefault();
-    const searchPopularity = searchPopularityEl.value;
 
-    if (searchPopularity !== 'option') {
-        clearGallery();
+if (formValue.id === 'years') {
+    
+    if (formValue.value !== 'year') {
+        onCloseForm();
+        Notiflix.Notify.success(`Hooray! Here your films by ${formValue.value} year!`);
 
-        fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=${searchPopularity}.desc`).then((response) => {
+        fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&primary_release_date.gte=${formValue.value}-01-01&primary_release_date.lte=${formValue.value}-12-31`).then((response) => {
             return response.json();
         })
-            .then(({ results }) => {
+            .then(({results, total_results}) => {
 
-                const film = results.map(({ id, title, poster_path, popularity, release_date, genre_ids, vote_average, vote_count }) => {
-                    const dateOf = release_date.slice(0, 4);
-                
-                    const genresList = getMovieGenre(...genre_ids);
+                clearGallery();
 
-                    return `<li class="gallery-item">
-        <div class="gallery-poster" href=""><img class="gallery-img" src="https://image.tmdb.org/t/p/w300${poster_path}" alt="${title}" id="${id}"/>
-        </div>
-        <div class="gallery-info">
-            <p class="gallery-name">${title}</p>
-            <p class="gallery-about">${genresList} | ${dateOf}</p>
-        </div>
-    </li>`}).join('');
+                markupAfterSearching(results);
 
-                return galleryEl.insertAdjacentHTML('beforeend', film)
+                return;
+            
             });
-    }
+    }}
+
     
-})
+    if (formValue.id === 'genres') {
 
+        let genreId;
 
+        if (formValue.value !== 'genres') {
+                    Notiflix.Notify.success(`Hooray! Here your ${formValue.value} movies!`);
 
-searchYearEl.addEventListener('click', (event) => {
-    event.preventDefault();
-    const searchYear = searchYearEl.value;
+            for (const el of genresList) {
 
-    if (searchYearEl.value !== 'year') {
-        clearGallery();
-
-        fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&primary_release_date.gte=${searchYear}-01-01&primary_release_date.lte=${searchYear}-12-31`).then((response) => {
-            return response.json();
-        })
-            .then(({ results }) => {
-
-                console.log(results);
-
-                const film = results.map(({ id, title, poster_path, overview, release_date, genre_ids }) => {
-                    const dateOf = release_date.slice(0, 4);
-                
-                    const genresList = getMovieGenre(...genre_ids);
-
-                    const genreName = [];
-                    for (const el of genresList) {
-                        for (const gen of genre_ids) {
-                            if (el.id === gen) {
-                                genreName.push(el.name)
-                            }
-                        }
-                    }
-                    return `<li class="gallery-item">
-        <div class="gallery-poster" href=""><img class="gallery-img" src="https://image.tmdb.org/t/p/w300${poster_path}" alt="${title}" id="${id}"/>
-        </div>
-        <div class="gallery-info">
-            <p class="gallery-name">${title}</p>
-            <p class="gallery-about">${genresList} | ${dateOf}</p>
-        </div>
-    </li>`}).join('');
-
-                return galleryEl.insertAdjacentHTML('beforeend', film)
-            });
-    }
-    
-})
-
-
-searchGenreEl.addEventListener('click', (event) => {
-    event.preventDefault();
-    const searchGenre = searchGenreEl.value;
-    let genreId;
-
-    if (searchGenreEl.value !== 'genres') {
-        console.log(searchGenre);
-        console.log(genres);
-        for (const el of genres) {
-
-            if (el.name === searchGenre) {
-                console.log(el.id);
-                genreId = el.id;
-
+                if (el.name === formValue.value) {
+                    genreId = el.id;
+                }
             }
+
+            onCloseForm();
+
+            fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&include_adult=false&include_video=false&page=1&with_genres=${genreId}`).then((response) => {
+                return response.json();
+            })
+                .then(({ results }) => {
+                    clearGallery();
+                    markupAfterSearching(results);
+
+                    return;
+                });
         }
+    }
 
-        clearGallery();
+    if (formValue.id === 'popularity') {
 
-        fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&include_adult=false&include_video=false&page=1&with_genres=${genreId}`).then((response) => {
-            return response.json();
-        })
-            .then(({ results }) => {
+        if (formValue.value !== 'option') {
+            Notiflix.Notify.success(`Hooray! We found most popular movies!`);
 
-                console.log(results);
+            onCloseForm();
 
-                const film = results.map(({ id, title, poster_path, overview, release_date, genre_ids }) => {
-                    const dateOf = release_date.slice(0, 4);
+
+            fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=${formValue.value}.desc`).then((response) => {
+                return response.json();
+            })
+                .then(({ results }) => {
+
+                    clearGallery();
+                    markupAfterSearching(results);
+                    return;
+
+                });
+        }
+    }
+
+    formEl.reset();
+
+})
+
+
+async function renderGenresList() {
+
+    const resp = await getGenres();
+    genresList = resp.genres;
+    const genresItems = genresList.map(({ name }) => {
+    return `<option value="${name}">${name}</option>`
+}).join('');
+searchGenreEl.insertAdjacentHTML('beforeend', genresItems)
+}
+
+function markupAfterSearching(movies) {
+    const film = movies.map(({ id, title, poster_path, overview, release_date, genre_ids, vote_average }) => {
+        const dateOf = release_date.slice(0, 4);
                 
-                    const genresList = getMovieGenre(...genre_ids);
-
-                    const genreName = [];
-                    for (const el of genresList) {
-                        for (const gen of genre_ids) {
-                            if (el.id === gen) {
-                                genreName.push(el.name)
-                            }
-                        }
-                    }
-                    return `<li class="gallery-item">
+        const genresItems = getMovieGenre(...genre_ids);
+        return `<li class="gallery-item">
         <div class="gallery-poster" href=""><img class="gallery-img" src="https://image.tmdb.org/t/p/w300${poster_path}" alt="${title}" id="${id}"/>
         </div>
         <div class="gallery-info">
             <p class="gallery-name">${title}</p>
-            <p class="gallery-about">${genresList} | ${dateOf}</p>
+            <p class="gallery-about">${genresItems} | ${dateOf}</p>
         </div>
     </li>`}).join('');
 
-                return galleryEl.insertAdjacentHTML('beforeend', film)
-            });
-    }
-    
-})
+    return galleryEl.insertAdjacentHTML('beforeend', film)
+}
+
+
+// -------------------------------
 
 
 
+
+
+
+// -----------search film with keaword-------------------
 
 const BASE_URL = 'https://api.themoviedb.org/3/movie/550?api_key=532c56a8c591a340308597d9f66fd331';
 
@@ -304,14 +308,14 @@ function onCloseModal() {
 
 
 
-async function genresFetch() {
-    try {
-        const {data} = await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`)
-        const filmGenres = data.genres;
-        console.log(filmGenres);
-        return filmGenres;
-    } catch (error) {
-        console.error(error);
-    }
-}
+// async function genresFetch() {
+//     try {
+//         const {data} = await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`)
+//         const filmGenres = data.genres;
+//         console.log(filmGenres);
+//         return filmGenres;
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
 
