@@ -66,12 +66,16 @@ input {
     margin-right: auto;
     border: none;
     background-color: inherit;
-    border-bottom: 0.5px solid #FFFFFF;
+    border-bottom: 1px solid #FFFFFF;
     width: 336px;
 
     font-weight: 400;
     font-size: 14px;
     color: #FFFFFF;
+
+    &:hover {
+        border-bottom: 0.5px solid #f17917;
+    }
 }
 
 input::placeholder {

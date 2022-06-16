@@ -19,10 +19,16 @@
 
 
 .gallery-item {
+    padding-bottom: 10px;
     transition: transform 250ms linear;
+    border-radius: 5px;
+
+    box-shadow: 0px 4px 4px rgba(245, 124, 50, 0.12), 0px 4px 4px rgba(245, 124, 50, 0.12),
+            1px 4px 6px rgba(245, 124, 50, 0.12);
 
     &:hover {
         transform: scale(1.05);
+        box-shadow: 1px 1px 8px 3px rgba(255, 127, 27, 0.88);
 }
 
     @media screen and (max-width:767px) {
@@ -48,9 +54,21 @@
 }
 
 .gallery-img {
+    position: relative;
     border-radius: 5px;
     width: 100%;
-    margin: auto;
+    // margin: auto;
+    height: 402px;
+    margin-bottom: 10px;
+    
+    @media screen and (min-width:768px) {
+        height: 455px;
+        margin-bottom: 8px;
+    }
+    
+    @media screen and (min-width:1024px) {
+        height: 449px;
+    }
 }
 
 .gallery-info {
@@ -58,6 +76,7 @@
     font-size: 12px;
     line-height: 1.33;
     font-weight: 500;
+    padding-left: 2px;
 }
 
 .gallery-about {

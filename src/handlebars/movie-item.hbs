@@ -1,0 +1,17 @@
+{{#each this}}
+    <li class='gallery-item'>
+    <div class='gallery-poster'>
+        <img
+        class="gallery-img" id="${id}"
+        src='https://image.tmdb.org/t/p/w500{{poster_path}}'
+        alt='{{title}}'
+        loading='lazy'
+        />
+        {{!-- <span class='gallery-vote-average'>{{vote_average}}</span> --}}
+    </div>
+    <div class='gallery-info'>
+        <p class='gallery-name'>{{title}}</p>
+        <p class='gallery-about'>{{#each genres}} {{name}} {{/each}} | {{release_date}}</p></p>
+    </div>
+    </li>
+{{/each}}
