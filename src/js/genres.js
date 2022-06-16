@@ -3,7 +3,7 @@ import { refs } from './refs';
 import {API_KEY, BASE_URL} from './basic'
 
 
-// let genresList;
+let genresList;
 
 export async function getGenres() {
     const url = `${BASE_URL}/genre/movie/list?api_key=${API_KEY}`;
@@ -14,7 +14,7 @@ export async function getGenres() {
 export async function renderGenresList() {
 
     const resp = await getGenres();
-    const genresList = resp.genres;
+    genresList = resp.genres;
     const genresItems = genresList.map(({ name }) => {
     return `<option value="${name}">${name}</option>`
 }).join('');
