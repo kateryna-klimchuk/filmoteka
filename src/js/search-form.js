@@ -23,6 +23,7 @@ if (formValue.id === 'years') {
     
     if (formValue.value !== 'year') {
         startLoader();
+    refs.formEl.reset();
 
         onClickSearchBtnClose();
         Notiflix.Notify.success(`Hooray! Here your films by ${formValue.value} year!`);
@@ -38,7 +39,8 @@ if (formValue.id === 'years') {
         let genreId;
 
         if (formValue.value !== 'genres') {
-                startLoader();
+            startLoader();
+            refs.formEl.reset();
 
             onClickSearchBtnClose();
             Notiflix.Notify.success(`Hooray! Here your ${formValue.value} movies!`);
@@ -58,7 +60,8 @@ if (formValue.id === 'years') {
     if (formValue.id === 'popularity') {
 
         if (formValue.value !== 'option') {
-                startLoader();
+            startLoader();
+    refs.formEl.reset();
 
             onClickSearchBtnClose();
             Notiflix.Notify.success(`Hooray! We found most popular movies!`);
