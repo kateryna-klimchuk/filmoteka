@@ -2,7 +2,7 @@
 import { getGenres, getMoviesByPopularity, getMoviesByYear, getMoviesByGenres } from './get-movies';
 import { refs } from './refs';
 
-import {API_KEY, BASE_URL} from './basic'
+// import {API_KEY, BASE_URL} from './basic'
 
 import { startLoader, stopLoader } from './loader.js';
 // import { renderGenresList } from './genres';
@@ -23,9 +23,9 @@ if (formValue.id === 'years') {
     
     if (formValue.value !== 'year') {
         startLoader();
-    refs.formEl.reset();
+        refs.searchBackdrop.classList.remove('is-open');
 
-        onClickSearchBtnClose();
+        // onClickSearchBtnClose();
         Notiflix.Notify.success(`Hooray! Here your films by ${formValue.value} year!`);
         clearGallery();
         markupMoviesByYear(formValue.value); 
@@ -40,9 +40,9 @@ if (formValue.id === 'years') {
 
         if (formValue.value !== 'genres') {
             startLoader();
-            refs.formEl.reset();
+            refs.searchBackdrop.classList.remove('is-open');
 
-            onClickSearchBtnClose();
+            // onClickSearchBtnClose();
             Notiflix.Notify.success(`Hooray! Here your ${formValue.value} movies!`);
             for (const el of genresList) {
 
@@ -61,9 +61,9 @@ if (formValue.id === 'years') {
 
         if (formValue.value !== 'option') {
             startLoader();
-    refs.formEl.reset();
+            refs.searchBackdrop.classList.remove('is-open');
 
-            onClickSearchBtnClose();
+            // onClickSearchBtnClose();
             Notiflix.Notify.success(`Hooray! We found most popular movies!`);
             clearGallery();
             markupMoviesByPopularity(formValue.value);
