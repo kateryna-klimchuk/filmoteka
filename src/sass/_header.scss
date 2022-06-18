@@ -4,37 +4,55 @@
             rgba(47, 48, 58, 0.4)),
         url("../images/Rectangle\ 1.png");
     margin: 0 auto;
-    padding: 40px 32px 80px;
+    padding: 30px 20px;
     width: 100%;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
 
+    @media screen and (min-width:668px) {
+    min-width: 336px;
+    padding: 40px 32px 80px;    }
+
 }
 
 .header-nav {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    font-weight: 500;
     color: white;
-    margin-bottom: 41px;
+    padding-bottom: 50px;
+
+    @media screen and (min-width:768px) {
+        min-width: 336px;
+        align-items: center;
+        margin-bottom: 41px;
+        align-items: center;
+    }
 }
 
 .header-brand a {
     display: flex;
-    align-items: flex-end;
     justify-content: center;
 }
 
 .header-list {
-    display: flex;
+    display: block;
+    margin-left: 10px;
     list-style: none;
     font-size: 12px;
+    @media screen and (min-width:668px) {
+        display: flex;
+        margin-left: 0;
+        align-items: center;
+    }
 }
 
 .header-list__item:last-child {
-    margin-left: 39px;
+margin-top: 10px;
+    @media screen and (min-width:668px) {
+        margin-top: 0;
+            margin-left: 39px;
+        }
 }
 
 .header-list__link {
@@ -56,8 +74,11 @@
 }
 
 .header-brand__name {
-    font-size: 30px;
+    font-size: 24px;
     margin-left: 9px;
+
+    @media screen and (min-width:768px) {
+    font-size: 30px;        }
 }
 
 input {
@@ -67,11 +88,16 @@ input {
     border: none;
     background-color: inherit;
     border-bottom: 1px solid #FFFFFF;
-    width: 336px;
+
+    min-width: 250px;
 
     font-weight: 400;
     font-size: 14px;
     color: #FFFFFF;
+
+    @media screen and (min-width:768px) {
+        min-width: 336px;
+    }
 
     &:hover {
         border-bottom: 0.5px solid #f17917;
@@ -102,9 +128,13 @@ input::placeholder {
     font-weight: 400;
     font-size: 14px;
     line-height: 16px;
-    margin-top: 20px;
+    margin-top: 10px;
     
     color: #FF001B;
+
+    @media screen and (min-width:768px) {
+    margin-top: 20px;    
+    }
 }
 
 .form-wrap {

@@ -22,11 +22,14 @@ refs.formEl.addEventListener('click', (event) => {
 if (formValue.id === 'years') {
     
     if (formValue.value !== 'year') {
-        loaderStartStop();
+        startLoader();
+
         onClickSearchBtnClose();
         Notiflix.Notify.success(`Hooray! Here your films by ${formValue.value} year!`);
         clearGallery();
-        markupMoviesByYear(formValue.value);        
+        markupMoviesByYear(formValue.value); 
+        stopLoader();
+
     }}
 
     
@@ -35,7 +38,8 @@ if (formValue.id === 'years') {
         let genreId;
 
         if (formValue.value !== 'genres') {
-            loaderStartStop();
+                startLoader();
+
             onClickSearchBtnClose();
             Notiflix.Notify.success(`Hooray! Here your ${formValue.value} movies!`);
             for (const el of genresList) {
@@ -46,17 +50,22 @@ if (formValue.id === 'years') {
             }
             clearGallery();
             markupMoviesByGenres(genreId);
+            stopLoader();
+
         }
     }
 
     if (formValue.id === 'popularity') {
 
         if (formValue.value !== 'option') {
-            loaderStartStop();
+                startLoader();
+
             onClickSearchBtnClose();
             Notiflix.Notify.success(`Hooray! We found most popular movies!`);
             clearGallery();
-            markupMoviesByPopularity(formValue.value)
+            markupMoviesByPopularity(formValue.value);
+            stopLoader();
+
         }
     }
 
@@ -90,30 +99,6 @@ refs.searchGenreEl.insertAdjacentHTML('beforeend', genresItems)
 function clearGallery() {
     refs.galleryEl.innerHTML = '';
 }
-
-
-function loaderStartStop() {
-    startLoader();
-    stopLoader();
-}
-
-// async function getMoviesByGenres(genreId) {
-//     const url = `${BASE_URL}api_key=${API_KEY}&language=en-US&include_adult=false&include_video=false&page=1&with_genres=${genreId}`;
-//     const response = await axios.get(url);
-//     return response.data.results;
-// };
-
-// async function getMoviesByYear(year) {
-//     const url = `${BASE_URL}api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&primary_release_date.gte=${year}-01-01&primary_release_date.lte=${year}-12-31`;
-//     const response = await axios.get(url);
-//     return response.data.results;
-// }
-
-// async function getMoviesByPopularity(param) {
-//     const url = `${BASE_URL}api_key=${API_KEY}&language=en-US&sort_by=${param}.desc&include_adult=false`;
-//     const response = await axios.get(url);
-//     return response.data.results;
-// }
 
 
 function insertGenresToMoviesByPopularity(param) {
