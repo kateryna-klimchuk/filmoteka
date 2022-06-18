@@ -1,11 +1,6 @@
-// import { getMovieGenre } from './movie-genres';
 import { getGenres, getMoviesByPopularity, getMoviesByYear, getMoviesByGenres } from './get-movies';
 import { refs } from './refs';
-
-// import {API_KEY, BASE_URL} from './basic'
-
 import { startLoader, stopLoader } from './loader.js';
-// import { renderGenresList } from './genres';
 import moviesListPatern from '../handlebars/movie-item.hbs';
 import Notiflix from 'notiflix';
 
@@ -15,7 +10,7 @@ renderGenresList();
 let genresList;
 
 
-refs.formEl.addEventListener('click', (event) => {
+refs.formEl.addEventListener('change', (event) => {
     const formValue = event.target;
     event.preventDefault();
 
@@ -23,9 +18,8 @@ if (formValue.id === 'years') {
     
     if (formValue.value !== 'year') {
         startLoader();
-        refs.searchBackdrop.classList.remove('is-open');
 
-        // onClickSearchBtnClose();
+        onClickSearchBtnClose();
         Notiflix.Notify.success(`Hooray! Here your films by ${formValue.value} year!`);
         clearGallery();
         markupMoviesByYear(formValue.value); 
@@ -40,20 +34,19 @@ if (formValue.id === 'years') {
 
         if (formValue.value !== 'genres') {
             startLoader();
-            refs.searchBackdrop.classList.remove('is-open');
-
-            // onClickSearchBtnClose();
             Notiflix.Notify.success(`Hooray! Here your ${formValue.value} movies!`);
             for (const el of genresList) {
 
                 if (el.name === formValue.value) {
+                    
+                    console.log(formValue.value);
                     genreId = el.id;
+                    markupMoviesByGenres(genreId);
+                    onClickSearchBtnClose();
                 }
             }
             clearGallery();
-            markupMoviesByGenres(genreId);
-            stopLoader();
-
+            stopLoader()
         }
     }
 
@@ -63,7 +56,7 @@ if (formValue.id === 'years') {
             startLoader();
             refs.searchBackdrop.classList.remove('is-open');
 
-            // onClickSearchBtnClose();
+            onClickSearchBtnClose();
             Notiflix.Notify.success(`Hooray! We found most popular movies!`);
             clearGallery();
             markupMoviesByPopularity(formValue.value);
@@ -95,7 +88,7 @@ async function renderGenresList() {
     const genresItems = genresList.map(({ name }) => {
     return `<option value="${name}">${name}</option>`
 }).join('');
-refs.searchGenreEl.insertAdjacentHTML('beforeend', genresItems)
+return refs.searchGenreEl.insertAdjacentHTML('beforeend', genresItems)
 }
 
 

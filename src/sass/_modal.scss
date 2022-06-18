@@ -4,19 +4,18 @@
     top: 0;
     left: 0;
     position: fixed;
+
     background-color: rgba($color: #000000, $alpha: .25);
 }
 
-
-
 .modal-window {
-    position: absolute;
-    min-width: 230px;
-    height: 80vh;
+    position: fixed;
+    width: 280px;
 
-
-    top: 50%;
+    top: 310px;
     left: 50%;
+
+    display: block;
     // padding: 20px 40px;
     transform: translate(-50%, -50%) scaleY(1);
 
@@ -73,10 +72,10 @@
     // min-width: 50%;
     // width: 100%;
     // object-fit: contain;
-    // height: 400px;
+    // height: fit-content;
 
-    max-width: 230px;
-    height: 70vh;
+    width: 250px;
+    // height: 70vh;
     margin-right: 16px;
     border-radius: 5px;
 
