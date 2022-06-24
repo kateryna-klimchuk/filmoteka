@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {API_KEY, BASE_URL, SEARCH_URL} from './basic'
+import { genres, getMovieGenre, renderGenresList } from './genres';
 
 
 let page = 1;

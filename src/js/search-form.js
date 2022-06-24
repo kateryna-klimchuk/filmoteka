@@ -1,13 +1,14 @@
 import { getGenres, getMoviesByPopularity, getMoviesByYear, getMoviesByGenres } from './get-movies';
 import { refs } from './refs';
+import { genres, getMovieGenre, renderGenresList } from './genres';
 import { startLoader, stopLoader } from './loader.js';
 import moviesListPatern from '../handlebars/movie-item.hbs';
 import Notiflix from 'notiflix';
 
 
-renderGenresList();
+// renderGenresList();
 
-let genresList;
+let genresList = genres;
 
 
 refs.formEl.addEventListener('change', (event) => {
@@ -81,15 +82,15 @@ function onClickSearchBtnClose() {
 }
 
 
-async function renderGenresList() {
+// async function renderGenresList() {
 
-    const response = await getGenres();
-    genresList = response.genres;
-    const genresItems = genresList.map(({ name }) => {
-    return `<option value="${name}">${name}</option>`
-}).join('');
-return refs.searchGenreEl.insertAdjacentHTML('beforeend', genresItems)
-}
+//     const response = await getGenres();
+//     genresList = response.genres;
+//     const genresItems = genresList.map(({ name }) => {
+//     return `<option value="${name}">${name}</option>`
+// }).join('');
+// return refs.searchGenreEl.insertAdjacentHTML('beforeend', genresItems)
+// }
 
 
 function clearGallery() {
@@ -125,6 +126,9 @@ function markupMoviesByPopularity(param) {
     console.log(error.message)
 })
 }
+// ======search without fetch======
+
+
 
 
 function insertGenresToMoviesByGenres(id) {

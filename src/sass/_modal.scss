@@ -16,30 +16,26 @@
     left: 50%;
 
     display: block;
-    // padding: 20px 40px;
     transform: translate(-50%, -50%) scaleY(1);
 
-    // margin-left: auto;
-    // margin-right: auto;
-    // margin-top: 160px;
     border: 1px solid #000000;
     background-color: white;
     
     padding: 40px 16px;
-    // height: 100vh;
 
-    // overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+
 
     @media screen and (min-width: 768px) {
-        min-width: 700px;
+        width: 700px;
         display: flex;
-        align-items: flex-start;
-        // height: 568px;
+        height: 550px;
     }
 
     @media screen and (min-width: 1024px) {
-        min-width: 815px;
-        // height: 560px;
+        width: 815px;
+        height: 560px;
     }
 }
 

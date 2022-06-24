@@ -11,7 +11,7 @@ function clearModal() {
 function onFilmClick(event) {
     event.preventDefault();
     clearModal();
-    noScrollBody();
+    // noScrollBody();
     const item = event.target;
     if (item.nodeName !== 'IMG') {
         return;

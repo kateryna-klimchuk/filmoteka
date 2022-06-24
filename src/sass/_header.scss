@@ -76,9 +76,12 @@ margin-top: 10px;
 .header-brand__name {
     font-size: 24px;
     margin-left: 9px;
+    display: none;
 
     @media screen and (min-width:768px) {
-    font-size: 30px;        }
+    font-size: 30px;   
+    display: block;
+}
 }
 
 input {
