@@ -47,7 +47,7 @@ function onFilmClick(event) {
             <h3>About</h3>
             <p class="film-description">${overview}</p>
             <div class="modal-btn-wrap">
-                <button type="button" class="modal-btn modal-btn--active">ADD TO WATCHED</button>
+                <button type="button" class="modal-btn">ADD TO WATCHED</button>
                 <button type="button" class="modal-btn">ADD TO QUEUE</button>
             </div>
             

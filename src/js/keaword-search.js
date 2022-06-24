@@ -1,38 +1,46 @@
-import { getGenres, getMoviesByName } from './get-movies';
-import {refs} from './refs'
-import {markupMovieList} from './markup-movie-list'
+import { getMoviesByName } from './get-movies';
+import { refs } from './refs'
+import { clearGallery } from './basic';
 
+import {markupMovieList} from './markup-movie-list'
+import { genres } from './genres';
+import Notiflix from 'notiflix';
+
+let genresList = genres;
 let inputText = '';
+
+const errorNotificationEl = document.querySelector('.header-warning')
 
 refs.formBtnEl.addEventListener('click', onFormBtnClick);
 refs.inputEl.addEventListener('change', onInputType)
-
 
 function onInputType(event) {
     inputText = event.currentTarget.value;
 }
 
 
-function clearGallery() {
-    refs.galleryEl.innerHTML = '';
-}
-
 function insertGenresToMovies(keyword) {
     return getMoviesByName(keyword).then(data => {
-    return getGenres().then(genresList => {
     return data.results.map(movie => ({
         ...movie,
         release_date: movie.release_date.split('-')[0],
         genres: movie.genre_ids
-        .map(id => genresList.genres.filter(el => el.id === id))
+        .map(id => genresList.filter(el => el.id === id))
         .flat(),
     }))
     })
-})
 }
 
 function markupKeawordSearchMovies(keyword) {
     insertGenresToMovies(keyword).then(res => {
+        if (res.length === 0) {
+            errorNotificationEl.classList.remove('visually-hidden');
+            return;
+        } else {
+        errorNotificationEl.classList.add('visually-hidden')
+        }
+        Notiflix.Notify.success(`Hooray! Here your movies with ${keyword}!`);
+
     res.map(element => {
         if (element.genres.length > 2) {
         const Obj = {name: "Other"};
@@ -46,9 +54,9 @@ function markupKeawordSearchMovies(keyword) {
 })
 }
 
-
 function onFormBtnClick(event) {
     event.preventDefault();
     clearGallery();
-    markupKeawordSearchMovies(inputText)
+    markupKeawordSearchMovies(inputText);
+    refs.inputEl.value = '';
 }

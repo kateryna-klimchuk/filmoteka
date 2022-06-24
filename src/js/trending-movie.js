@@ -1,18 +1,18 @@
-import { getTrendingMovies, getGenres } from './get-movies';
+import { getTrendingMovies } from './get-movies';
 import {markupMovieList} from './markup-movie-list'
+import { genres, getMovieGenre, renderGenresList } from './genres';
+let genresList = genres;
 
 export function insertGenresToMovies() {
 return getTrendingMovies().then(data => {
-    return getGenres().then(genresList => {
     return data.results.map(movie => ({
         ...movie,
         release_date: movie.release_date.split('-')[0],
         genres: movie.genre_ids
-        .map(id => genresList.genres.filter(el => el.id === id))
+        .map(id => genresList.filter(el => el.id === id))
         .flat(),
     }))
     })
-})
 }
 
 export function markupPopularMovies() {

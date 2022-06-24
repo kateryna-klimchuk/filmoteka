@@ -35,6 +35,7 @@
     justify-content: center;
 }
 
+
 .header-list {
     display: block;
     margin-left: 10px;
@@ -57,6 +58,11 @@ margin-top: 10px;
 
 .header-list__link {
     position: relative;
+    transition: color 250ms linear;
+
+    &:hover {
+        color: rgb(175, 144, 87);
+        }
 }
 
 .header-list__link--active::after {
@@ -77,11 +83,16 @@ margin-top: 10px;
     font-size: 24px;
     margin-left: 9px;
     display: none;
+    transition: color 250ms linear;
 
     @media screen and (min-width:768px) {
     font-size: 30px;   
     display: block;
 }
+    &:hover {
+    color: #FF6B01;
+}
+
 }
 
 input {
@@ -96,14 +107,20 @@ input {
 
     font-weight: 400;
     font-size: 14px;
+    padding-bottom: 5px;
     color: #FFFFFF;
+    transition: border-bottom 250ms linear;
 
     @media screen and (min-width:768px) {
         min-width: 336px;
     }
 
     &:hover {
-        border-bottom: 0.5px solid #f17917;
+        border-bottom: 1px solid #f17917;
+    }
+
+    &:focus {
+        outline: none;
     }
 }
 
@@ -119,7 +136,7 @@ input::placeholder {
 
 .header-form button {
     position: absolute;
-    bottom: 0px;
+    bottom: 5px;
     right: -5px;
     border: none;
     background-color: inherit;
@@ -127,13 +144,12 @@ input::placeholder {
 }
 
 .header-warning {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
+    font-size: 18px;
     line-height: 16px;
     margin-top: 10px;
     
-    color: #FF001B;
+    color: rgb(255, 128, 0);
+    background-color: #0d0d0d;
 
     @media screen and (min-width:768px) {
     margin-top: 20px;    
@@ -149,3 +165,4 @@ input::placeholder {
 .visually-hidden {
     visibility: hidden;
 }
+

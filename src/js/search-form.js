@@ -1,15 +1,14 @@
 import { getGenres, getMoviesByPopularity, getMoviesByYear, getMoviesByGenres } from './get-movies';
 import { refs } from './refs';
+import { clearGallery } from './basic';
 import { genres, getMovieGenre, renderGenresList } from './genres';
 import { startLoader, stopLoader } from './loader.js';
-import moviesListPatern from '../handlebars/movie-item.hbs';
+import {markupMovieList} from './markup-movie-list';
 import Notiflix from 'notiflix';
 
 
-// renderGenresList();
 
 let genresList = genres;
-
 
 refs.formEl.addEventListener('change', (event) => {
     const formValue = event.target;
@@ -19,7 +18,6 @@ if (formValue.id === 'years') {
     
     if (formValue.value !== 'year') {
         startLoader();
-
         onClickSearchBtnClose();
         Notiflix.Notify.success(`Hooray! Here your films by ${formValue.value} year!`);
         clearGallery();
@@ -39,7 +37,6 @@ if (formValue.id === 'years') {
             for (const el of genresList) {
 
                 if (el.name === formValue.value) {
-                    
                     console.log(formValue.value);
                     genreId = el.id;
                     markupMoviesByGenres(genreId);
@@ -82,34 +79,16 @@ function onClickSearchBtnClose() {
 }
 
 
-// async function renderGenresList() {
-
-//     const response = await getGenres();
-//     genresList = response.genres;
-//     const genresItems = genresList.map(({ name }) => {
-//     return `<option value="${name}">${name}</option>`
-// }).join('');
-// return refs.searchGenreEl.insertAdjacentHTML('beforeend', genresItems)
-// }
-
-
-function clearGallery() {
-    refs.galleryEl.innerHTML = '';
-}
-
-
 function insertGenresToMoviesByPopularity(param) {
 return getMoviesByPopularity(param).then(data => {
-    return getGenres().then(genresList => {
     return data.map(movie => ({
         ...movie,
         release_date: movie.release_date.split('-')[0],
         genres: movie.genre_ids
-        .map(id => genresList.genres.filter(el => el.id === id))
+        .map(id => genresList.filter(el => el.id === id))
         .flat(),
     }))
     })
-})
 }
 
 function markupMoviesByPopularity(param) {
@@ -121,7 +100,7 @@ function markupMoviesByPopularity(param) {
         element.genres.length = 3
     }
     })
-        renderMoviesList(res);
+        markupMovieList(res);
 }).catch(error => {
     console.log(error.message)
 })
@@ -130,19 +109,16 @@ function markupMoviesByPopularity(param) {
 
 
 
-
 function insertGenresToMoviesByGenres(id) {
-    return getMoviesByGenres(id).then(data => {
-        return getGenres().then(genresList => {
+    return getMoviesByGenres(id).then(data => { 
     return data.map(movie => ({
         ...movie,
         release_date: movie.release_date.split('-')[0],
         genres: movie.genre_ids
-        .map(id => genresList.genres.filter(el => el.id === id))
+        .map(id => genresList.filter(el => el.id === id))
         .flat(),
     }))
     })
-})
 }
 
 function markupMoviesByGenres(id) {
@@ -154,7 +130,7 @@ function markupMoviesByGenres(id) {
         element.genres.length = 3
     }
     })
-        return renderMoviesList(res);
+        return markupMovieList(res);
 }).catch(error => {
     console.log(error.message)
 })
@@ -162,16 +138,14 @@ function markupMoviesByGenres(id) {
 
 function insertGenresToMoviesByYear(year) {
 return getMoviesByYear(year).then(data => {
-    return getGenres().then(genresList => {
     return data.map(movie => ({
         ...movie,
         release_date: movie.release_date.split('-')[0],
         genres: movie.genre_ids
-        .map(id => genresList.genres.filter(el => el.id === id))
+        .map(id => genresList.filter(el => el.id === id))
         .flat(),
     }))
     })
-})
 }
 
 function markupMoviesByYear(year) {
@@ -183,16 +157,12 @@ function markupMoviesByYear(year) {
         element.genres.length = 3
     }
     })
-        renderMoviesList(res);
+        markupMovieList(res);
 }).catch(error => {
     console.log(error.message)
 })
 }
 
-function renderMoviesList(movies) {
-    const markup = moviesListPatern(movies)
-    refs.galleryEl.insertAdjacentHTML('beforeend', markup);
-}
 
 
 
