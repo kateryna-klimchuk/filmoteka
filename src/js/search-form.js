@@ -1,6 +1,6 @@
-import { getGenres, getMoviesByPopularity, getMoviesByYear, getMoviesByGenres } from './get-movies';
+import { getMoviesByPopularity, getMoviesByYear, getMoviesByGenres } from './get-movies';
 import { refs } from './refs';
-import { clearGallery } from './basic';
+import { SEARCH_KEY, clearGallery } from './basic';
 import { genres, getMovieGenre, renderGenresList } from './genres';
 import { startLoader, stopLoader } from './loader.js';
 import {markupMovieList} from './markup-movie-list';
@@ -15,19 +15,23 @@ refs.formEl.addEventListener('change', (event) => {
     event.preventDefault();
 
 if (formValue.id === 'years') {
-    
+        localStorage.clear()
+
     if (formValue.value !== 'year') {
         startLoader();
         onClickSearchBtnClose();
         Notiflix.Notify.success(`Hooray! Here your films by ${formValue.value} year!`);
         clearGallery();
-        markupMoviesByYear(formValue.value); 
+        markupMoviesByYear(formValue.value, page); 
+        localStorage.setItem('inputValue', formValue.value);
+        localStorage.setItem(SEARCH_KEY, 'byYearSearch');
         stopLoader();
 
     }}
 
     
     if (formValue.id === 'genres') {
+    localStorage.clear()
 
         let genreId;
 
@@ -37,9 +41,11 @@ if (formValue.id === 'years') {
             for (const el of genresList) {
 
                 if (el.name === formValue.value) {
-                    console.log(formValue.value);
                     genreId = el.id;
-                    markupMoviesByGenres(genreId);
+                    markupMoviesByGenres(genreId, page);
+                    localStorage.setItem('inputValue', genreId);
+                    localStorage.setItem(SEARCH_KEY, 'byGenreSearch');
+
                     onClickSearchBtnClose();
                 }
             }
@@ -49,6 +55,7 @@ if (formValue.id === 'years') {
     }
 
     if (formValue.id === 'popularity') {
+    localStorage.clear()
 
         if (formValue.value !== 'option') {
             startLoader();
@@ -57,14 +64,13 @@ if (formValue.id === 'years') {
             onClickSearchBtnClose();
             Notiflix.Notify.success(`Hooray! We found most popular movies!`);
             clearGallery();
-            markupMoviesByPopularity(formValue.value);
+            markupMoviesByPopularity(formValue.value, page);
+            localStorage.setItem('inputValue', formValue.value);
+            localStorage.setItem(SEARCH_KEY, 'byPopularitySearch');
             stopLoader();
-
         }
     }
-
     refs.formEl.reset();
-
 })
 
 
@@ -79,8 +85,8 @@ function onClickSearchBtnClose() {
 }
 
 
-function insertGenresToMoviesByPopularity(param) {
-return getMoviesByPopularity(param).then(data => {
+function insertGenresToMoviesByPopularity(param, page) {
+return getMoviesByPopularity(param, page).then(data => {
     return data.map(movie => ({
         ...movie,
         release_date: movie.release_date.split('-')[0],
@@ -91,8 +97,8 @@ return getMoviesByPopularity(param).then(data => {
     })
 }
 
-function markupMoviesByPopularity(param) {
-    insertGenresToMoviesByPopularity(param).then(res => {
+export function markupMoviesByPopularity(param, page) {
+    insertGenresToMoviesByPopularity(param, page).then(res => {
     res.map(element => {
     if (element.genres.length > 2) {
         const Obj = {name: "Other"};
@@ -105,12 +111,10 @@ function markupMoviesByPopularity(param) {
     console.log(error.message)
 })
 }
-// ======search without fetch======
 
 
-
-function insertGenresToMoviesByGenres(id) {
-    return getMoviesByGenres(id).then(data => { 
+function insertGenresToMoviesByGenres(id, page) {
+    return getMoviesByGenres(id, page).then(data => { 
     return data.map(movie => ({
         ...movie,
         release_date: movie.release_date.split('-')[0],
@@ -121,8 +125,8 @@ function insertGenresToMoviesByGenres(id) {
     })
 }
 
-function markupMoviesByGenres(id) {
-    insertGenresToMoviesByGenres(id).then(res => {
+export function markupMoviesByGenres(id, page) {
+    insertGenresToMoviesByGenres(id, page).then(res => {
         res.map(element => {
     if (element.genres.length > 2) {
         const Obj = {name: "Other"};
@@ -136,8 +140,8 @@ function markupMoviesByGenres(id) {
 })
 }
 
-function insertGenresToMoviesByYear(year) {
-return getMoviesByYear(year).then(data => {
+function insertGenresToMoviesByYear(year, page) {
+return getMoviesByYear(year, page).then(data => {
     return data.map(movie => ({
         ...movie,
         release_date: movie.release_date.split('-')[0],
@@ -148,8 +152,8 @@ return getMoviesByYear(year).then(data => {
     })
 }
 
-function markupMoviesByYear(year) {
-    insertGenresToMoviesByYear(year).then(res => {
+export function markupMoviesByYear(year, page) {
+    insertGenresToMoviesByYear(year, page).then(res => {
     res.map(element => {
     if (element.genres.length > 2) {
         const Obj = {name: "Other"};

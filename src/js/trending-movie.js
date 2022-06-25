@@ -1,10 +1,10 @@
 import { getTrendingMovies } from './get-movies';
 import {markupMovieList} from './markup-movie-list'
-import { genres, getMovieGenre, renderGenresList } from './genres';
+import { genres, } from './genres';
 let genresList = genres;
 
-export function insertGenresToMovies() {
-return getTrendingMovies().then(data => {
+export function insertGenresToMovies(page) {
+return getTrendingMovies(page).then(data => {
     return data.results.map(movie => ({
         ...movie,
         release_date: movie.release_date.split('-')[0],
@@ -15,8 +15,8 @@ return getTrendingMovies().then(data => {
     })
 }
 
-export function markupPopularMovies() {
-insertGenresToMovies().then(res => {
+export function markupPopularMovies(page) {
+insertGenresToMovies(page).then(res => {
     res.map(element => {
     if (element.genres.length > 2) {
         const Obj = {name: "Other"};
@@ -30,4 +30,6 @@ insertGenresToMovies().then(res => {
 })
 }
 
-markupPopularMovies()
+localStorage.clear()
+
+markupPopularMovies(page = 1)

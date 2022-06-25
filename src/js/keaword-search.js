@@ -1,6 +1,6 @@
 import { getMoviesByName } from './get-movies';
 import { refs } from './refs'
-import { clearGallery } from './basic';
+import { SEARCH_KEY, clearGallery } from './basic';
 
 import {markupMovieList} from './markup-movie-list'
 import { genres } from './genres';
@@ -19,8 +19,8 @@ function onInputType(event) {
 }
 
 
-function insertGenresToMovies(keyword) {
-    return getMoviesByName(keyword).then(data => {
+function insertGenresToMovies(keyword, page) {
+    return getMoviesByName(keyword, page).then(data => {
     return data.results.map(movie => ({
         ...movie,
         release_date: movie.release_date.split('-')[0],
@@ -31,8 +31,8 @@ function insertGenresToMovies(keyword) {
     })
 }
 
-function markupKeawordSearchMovies(keyword) {
-    insertGenresToMovies(keyword).then(res => {
+export function markupKeawordSearchMovies(keyword, page) {
+    insertGenresToMovies(keyword, page).then(res => {
         if (res.length === 0) {
             errorNotificationEl.classList.remove('visually-hidden');
             return;
@@ -57,6 +57,9 @@ function markupKeawordSearchMovies(keyword) {
 function onFormBtnClick(event) {
     event.preventDefault();
     clearGallery();
-    markupKeawordSearchMovies(inputText);
+    localStorage.clear()
+    markupKeawordSearchMovies(inputText, page);
+    localStorage.setItem('inputValue', inputText);
+    localStorage.setItem(SEARCH_KEY, 'byKeywordSearch');
     refs.inputEl.value = '';
 }
