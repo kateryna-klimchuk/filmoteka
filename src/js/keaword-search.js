@@ -8,7 +8,7 @@ import Notiflix from 'notiflix';
 
 let genresList = genres;
 let inputText = '';
-
+let page = 1;
 const errorNotificationEl = document.querySelector('.header-warning')
 
 refs.formBtnEl.addEventListener('click', onFormBtnClick);

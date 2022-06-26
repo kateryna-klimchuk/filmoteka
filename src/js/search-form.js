@@ -7,7 +7,7 @@ import {markupMovieList} from './markup-movie-list';
 import Notiflix from 'notiflix';
 
 
-
+let page = 1;
 let genresList = genres;
 
 refs.formEl.addEventListener('change', (event) => {

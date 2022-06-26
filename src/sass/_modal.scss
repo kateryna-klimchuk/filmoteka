@@ -12,7 +12,7 @@
     position: fixed;
     width: 280px;
 
-    top: 510px;
+    top: 50%;
     left: 50%;
 
     display: block;
@@ -24,13 +24,15 @@
     
     padding: 40px 16px;
 
-    overflow-y: scroll;
+    // overflow-y: scroll;
     overflow-x: hidden;
-
+    @media screen and (min-width: 480px) {
+        width: 380px;
+    }
 
     @media screen and (min-width: 768px) {
 
-        top: 410px;
+        top: 50%;
         left: 50%;
         width: 700px;
         display: flex;
@@ -60,13 +62,10 @@
     right: 1%;
     transform: rotate(45deg);
 
-    transition: font-size 250ms cubic-bezier(.29, 1.01, 1, -0.68);;
+    transition: color 250ms linear;
 
     &:hover {
         color: orange;
-        font-size: 52px;
-        // transform: scale(0.9);
-        // transform: rotate(0.25turn);
     }
 }
 
@@ -75,8 +74,14 @@
     margin-right: 16px;
     border-radius: 5px;
 
+    @media screen and (min-width: 480px) {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
     @media screen and (min-width: 768px) {
         max-width: 280px;
+        margin-right: 16px;
     }
     
     @media screen and (min-width: 1024px) {
@@ -128,6 +133,10 @@
     line-height: 1.67;  
     
     color: #000000;
+
+    @media screen and (max-width: 767px) {
+        overflow-y: scroll;
+        }
 }
 
 .modal-btn-wrap {

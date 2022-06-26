@@ -2,7 +2,7 @@ import { getTrendingMovies } from './get-movies';
 import {markupMovieList} from './markup-movie-list'
 import { genres, } from './genres';
 let genresList = genres;
-
+let page = 1;
 export function insertGenresToMovies(page) {
 return getTrendingMovies(page).then(data => {
     return data.results.map(movie => ({
@@ -32,4 +32,4 @@ insertGenresToMovies(page).then(res => {
 
 localStorage.clear()
 
-markupPopularMovies(page = 1)
+markupPopularMovies(page)
